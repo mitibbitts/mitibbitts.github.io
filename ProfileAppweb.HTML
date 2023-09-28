@@ -7,39 +7,38 @@
 
     <style>
         body{text-align: center; background-color: turquoise;color: midnightblue;}
-        #enterDetails{float: left; width: 50%;  background-color:rgb(71, 32, 32);color: whitesmoke;}
-        #findDetails{float: left; width: 50%;background-color: rgb(29, 66, 26);color: yellowgreen;}
+        #ProfilesEmbed{float: left; width: 50%;  background-color:rgb(71, 32, 32);color: whitesmoke;}
+        #User1{float: left; width: 50%;background-color: rgb(29, 66, 26);color: yellowgreen;}
+        #User2{float: left; width: 50%;background-color: rgb(29, 66, 26);color: yellowgreen;}
     </style>
 </head>
 <body>
     <a id="banner"><img src="MatthewGramBanner.png" alt="MatthewGram Banner"> </a>
-    <div id="enterDetails">
-        <h1>Enter Details</h1>
-        <h4>ID</h4>
-        <input id="enterID" type="text">
-        <h4>Name</h4>
-        <input id="enterName" type="text">
-        <h4>Age</h4>
-        <input id="enterAge" type="number"> <br><br>
-
-        <button id="insert">INSERT</button>
-        <button id="update">UPDATE</button>
-        <button id="remove">REMOVE</button> <br><br>
-
-
+    <div id="ProfilesEmbed">
+        <h1>MatthewGram</h1>
+        <iframe src="https://thunkable.site/w/IBjJ5f6KPyYJMb1pWUreZ?from=x" title="Profiles App" height=750 width=400></iframe>
         <h4></h4>
     </div>
 
 
-    <div id="findDetails">
-        <h1>Find by ID</h1>
-        <h4>ID</h4>
-        <input id="findID" type="text"> <br><br>
-
-        <button id="find">FIND</button>
+    <div id="User1">
+        <h1>User List</h1>
+        <button id="refresh">REFRESH</button>
 
         <h3 id="findName" type="text"></h3>
-        <h3 id="findAge" type="text"></h3>
+        <h3 id="findStatus" type="text"></h3>
+        <h3 id="findRating" type="float"></h3>
+        <h3 id="findImage" type="png"></h3>
+        <h3 id="findComment" type="text"></h3>
+
+    </div>
+
+    <div id="User2">
+        <h3 id="findName2" type="text"></h3>
+        <h3 id="findStatus2" type="text"></h3>
+        <h3 id="findRating2" type="float"></h3>
+        <h3 id="findImage2" type="png"></h3>
+        <h3 id="findComment2" type="text"></h3>
 
     </div>
 
@@ -70,78 +69,83 @@
 
         const db = getDatabase();
 
-        var enterID = document.querySelector("#enterID");
-        var enterName = document.querySelector("#enterName");
-        var enterAge = document.querySelector("#enterAge");
-        var findID = document.querySelector("#findID");
+        //var findID = document.querySelector("#findID");
         var findName = document.querySelector("#findName");
-        var findAge = document.querySelector("#findAge");
+        var findStatus = document.querySelector("#findStatus");
+        var findRating = document.querySelector("#findRating");
+        var findImage = document.querySelector("#findImage");
+        var findComment = document.querySelector("#findComment");
 
-        var insertButton = document.querySelector("#insert");
-        var updateButton = document.querySelector("#update");
-        var removeButton = document.querySelector("#remove");
-        var findButton = document.querySelector("#find");
+        var findName2 = document.querySelector("#findName2");
+        var findStatus2 = document.querySelector("#findStatus2");
+        var findRating2 = document.querySelector("#findRating2");
+        var findImage2 = document.querySelector("#findImage2");
+        var findComment2 = document.querySelector("#findComment2");
 
-        function InsertData(){
-            set(ref(db, enterID.value), {
-                Name: enterName.value,
-                ID: enterID.value,
-                Age: enterAge.value
-            })
-            .then(()=>{
-                alert("Data added successfully!")
-            })
-            .catch((error)=>{
-                alert(error)
-            });
-        }
+        var refreshButton = document.querySelector("#refresh");
 
         function FindData(){
             const dbref = ref(db);
-            get(child(dbref, "People/" + findID.value))
-            .then((snapshot)=>{
-                if(snapshot.exists()){
-                    findName.innerHTML = "Name: " + snapshot.val().Name;
-                    findAge.innerHTML = "Age: " + snapshot.val().Age;
-                }
-                else{
-                    alert("No data found");
-                }
-            })
-            .catch((error)=>{
-                alert(error);
-            });
+                get(child(dbref, "dWazvudzFNZSbCTOYJd0uw8YoQN2"))
+                .then((snapshot)=>{
+                    if(snapshot.exists()){
+                        findName.innerHTML = "Name: " + snapshot.val().name;
+                        findStatus.innerHTML = "Status: " + snapshot.val().status;
+                        findRating.innerHTML = "Rating: " + snapshot.val().rating;
+                        findImage.innerHTML = "Image: " + snapshot.val().image;
+                        findComment.innerHTML = "Comment: " + snapshot.val().comment;
+                    }
+                    else{
+                        alert("No data found");
+                    }
+                })
+                .catch((error)=>{
+                    alert(error);
+                });
 
+                get(child(dbref, "worm6c3TECYbwPTVAFlNz9zWhc02"))
+                .then((snapshot)=>{
+                    if(snapshot.exists()){
+                        findName2.innerHTML = "Name: " + snapshot.val().name;
+                        findStatus2.innerHTML = "Status: " + snapshot.val().status;
+                        findRating2.innerHTML = "Rating: " + snapshot.val().rating;
+                        findImage2.innerHTML = "Image: " + snapshot.val().image;
+                        findComment2.innerHTML = "Comment: " + snapshot.val().comment;
+                    }
+                    else{
+                        alert("No data found");
+                    }
+                })
+                .catch((error)=>{
+                    alert(error);
+                });
+            }
 
-        }
+/*        function FindData(){
+            const dbref = ref(db);
+            for (x=0, x<2, x++){
+                get(child(dbref))
+                .then((snapshot)=>{
         
-        function UpdateData(){
-            update(ref(db, "People/" + enterID.value), {
-                Name: enterName.value,
-                Age: enterAge.value
-            })
-            .then(()=>{
-                alert("Data updated successfully!");
-            })
-            .catch((error)=>{
-                alert(error);
-            });
+                    if(snapshot.exists()){
+                        findName.innerHTML = "Name: " + snapshot.val().name;
+                        findStatus.innerHTML = "Status: " + snapshot.val().status;
+                        findRating.innerHTML = "Rating: " + snapshot.val().rating;
+                        findImage.innerHTML = "Image: " + snapshot.val().image;
+                        findComment.innerHTML = "Comment: " + snapshot.val().comment;
+                    }
+                    else{
+                        alert("No data found");
+                    }
+                })
+                .catch((error)=>{
+                    alert(error);
+                });  
+            }
+            
         }
-        
-        function RemoveData(){
-            remove(ref(db, "People/" + findID.value))
-            .then(()=>{
-                alert("Data removed successfully!");
-            })
-            .catch((error)=>{
-                alert(error);
-            });
-        }
-
-        insertButton.addEventListener('click', InsertData);
-        updateButton.addEventListener('click', UpdateData);
-        removeButton.addEventListener('click', RemoveData);
-        findButton.addEventListener('click', FindData);
+  */      
+        refreshButton.addEventListener('click', FindData);
 
       </script>
 
